@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="main.css">
+        <title>Title</title>
+    </head>
+    <body>
+
+    <canvas id="canvas" width="500" height="300"></canvas>
+
+    <script>
+
+
+        let canvas = document.getElementById("canvas");
+
+        let context = canvas.getContext("2d");
+
+
+        const NUM_POINTS = 3;
+
+
+
+        const points = [];
+
+        for (let i = 0; i < NUM_POINTS; i++) {
+
+            points.push({
+
+                x: Math.random() * canvas.width,
+
+                y: Math.random() * canvas.height,
+
+                width: Math.random() * 100,
+
+                height: Math.random() * 100,
+
+                xDelta: 1,
+                yDelta: 1,
+
+                color: 'red'
+
+            });
+
+        }
+
+
+        const draw = function () {
+
+            context.clearRect(0,0, 500,300);
+
+
+            points.forEach(function (element) {
+                context.beginPath();
+                context.fillStyle=element.color;
+                context.rect(element.x,element.y,element.width,element.height);
+                context.closePath();
+                context.fill();
+                if (element.x < 0 || element.x + element.width > 500) {
+                    element.xDelta = -element.xDelta;
+                }
+                if ( element.y < 0 || element.y + element.height > 300) {
+                    element.yDelta = -element.yDelta;
+                }
+                element.x += element.xDelta;
+                element.y += element.yDelta;
+            });
+
+
+        };
+
+
+        let animate = function () {
+
+            draw();
+
+            setTimeout(animate,5);
+
+        };
+
+        animate();
+
+
+    </script>
+    </body>
+</html>
